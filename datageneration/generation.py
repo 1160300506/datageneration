@@ -398,7 +398,7 @@ def graph_generate(user_num, user_inform_table, dox_list):
         uid = ("%0" + str(uid_len) + "d") % (i + 1)
         gender_relation.append(uid)
         gender_relation.append("gender")
-        if str(user_inform_table[i][4]) == "1":
+        if str(user_inform_table[i][3]) == "1":
             gender_relation.append("female")
         else:
             gender_relation.append("male")
@@ -444,10 +444,13 @@ def graph_generate(user_num, user_inform_table, dox_list):
 
 
 if __name__ == '__main__':
-    users_num = 10000  # 生成的用户数量
+    np.random.seed(42)
+    random.seed(10)
+    factor = 1
+    users_num = 10000 * factor  # 生成的用户数量
     users_inform_table = user_inform_generate(users_num)  # 生成用户基本信息
-    user_behavior_generate(users_num, 100000, 3, users_inform_table)  # 生成1000000条用户行为记录
-    dox_l = dox_generate(100000, users_num, users_inform_table)  # 生成博文
+    user_behavior_generate(users_num, 100000 * factor, 3, users_inform_table)  # 生成1000000条用户行为记录
+    dox_l = dox_generate(100000 * factor, users_num, users_inform_table)  # 生成博文
     user_password_generate(users_num)  # 生成密码
-    user_thumb_generate(users_num, 100000, users_inform_table)  # 生成点赞统计
+    user_thumb_generate(users_num, 100000 * factor, users_inform_table)  # 生成点赞统计
     graph_generate(users_num, users_inform_table, dox_l)  # 生成大图数据

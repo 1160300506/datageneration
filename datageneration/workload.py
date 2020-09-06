@@ -55,9 +55,9 @@ def read_follow_comment():
     with open('data/blog_graph.csv', 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
         for row in reader:
-            if row[1] == "关注":
+            if row[1] == "follow":
                 follow.append(row)
-            if row[1] == "评论":
+            if row[1] == "comment":
                 comment.append(row)
     return follow, comment
 
@@ -77,7 +77,7 @@ def read_senior_user():
     with open('data/blog_graph.csv', 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
         for row in reader:
-            if row[1] == "用户类型" and row[2] == "高级用户":
+            if row[1] == "type" and row[2] == "senior user":
                 senior_user.append(row[0])
     f.close()
     return senior_user
@@ -107,24 +107,27 @@ def workload1():
         for j in range(0, len(blog_v)):
             count += 1
             sql = "Select activity.device, count(activity.device) as device_count where log_time %s" \
-                  " and %s and uid in (Select gra.s join gra (s = a.s, o = a.o, p = a.p, bp = b.p, bo = b.o," \
-                  " cp = c.p, co = c.o, dp = d.p, do = d.o) a, b, c a.s = b.s and b.p = c.s and a.s = d.s where " \
+                  "and %s and uid in (Select gra.s, gra.eo, gra.fo join gra (s = a.s, o = a.o, p = a.p, bp = b.p, " \
+                  "bo = b.o, cp = c.p, co = c.o, dp = d.p, do = d.o, ep = e.p, eo = e.o, fp = f.p, fo = f.o) " \
+                  "a, b, c, d, e, f a.s = b.s and b.o = c.s and a.s = d.s and a.s = e.s and a.s = f.s where " \
                   "gra.p = 'follow' and gra.o = '%s' and gra.bp = 'publish' and gra.cp = 'topic' and gra.co" \
-                  " = '%s' and gra.dp = 'gender' and gra.do = " \
-                  "'female') group by device;" % ("20200701", "20200707", blog_v[j], topic_list[i])
-            f.write(sql+"\n")
+                  "= '%s' and gra.dp = 'gender' and gra.do = 'female' and gra.ep = 'occupation' and gra.fp = 'name') " \
+                  "group by device;" % ("20200701", "20200707", blog_v[j], topic_list[i])
+            f.write(sql + "\n")
 
-            sql_graph = "Select a.s from graph a join graph b on a.s = b.s join graph c on b.p = c.s join graph" \
-                          " d on a.s = d.s where a.p = 'follow' and a.o = '%s' and b.p = 'publish' and c.p = " \
-                          "'topic' and c.o = '%s' and d.p = 'gender' and d.o = 'female';" %(blog_v[j], topic_list[i])
+            sql_graph = "Select a.s, e.o, f.o from graph a join graph b on a.s = b.s join graph c on b.o = c.s " \
+                        "join graph d on a.s = d.s join graph e on a.s = e.s join graph f on a.s = f.s " \
+                        "where a.p = 'follow' and a.o = '%s' and b.p = 'publish' and c.p = 'topic' and c.o = '%s' " \
+                        "and d.p = 'gender' and d.o = 'female' and e.p = 'occupation' and f.p = 'name';" % (
+                            blog_v[j], topic_list[i])
 
-            f_graph.write(sql_graph+"\n")
-            f_single.write(sql_graph+"\n")
+            f_graph.write(sql_graph + "\n")
+            f_single.write(sql_graph + "\n")
             sql_relation = "Select activity.device, count(activity.device) as device_count from activity where" \
                            " activity.log_time between %s and %s and activity.uid in" \
                            " graph_answer.s group by device;" % ("20200701", "20200707")
-            f_relation.write(sql_relation+"\n")
-            f_single.write(sql_relation+"\n")
+            f_relation.write(sql_relation + "\n")
+            f_single.write(sql_relation + "\n")
             if count == workload_num:
                 f.close()
                 f_single.close()
@@ -132,11 +135,16 @@ def workload1():
                 f_graph.close()
                 return
 
-    #  100 x 查询关注了某大V的发表过‘手机’话题帖子的女性用户在过去一周的登录设备统计。
+    ## 100x查询关注了某大V的发表过‘手机’话题帖子的女性用户在过去一周的登录设备统计。
     # uid = []
+    # user_inform_table = read_user_inform()
+    # dox_l = read_user_blog()
+    # user_behavior_table = read_user_behavior()
+    # follow, comment = read_follow_comment()
+    # blog_v = read_blog_v()
     # print("在发表某一话题的用户")
     # for i in range(0, len(dox_l)):
-    #     if dox_l[i][2] == "开学":
+    #     if dox_l[i][2] == "大学":
     #         uid.append(dox_l[i][1])
     # print(len(uid))
     # uidnew1 = []
@@ -166,7 +174,6 @@ def workload1():
 
 # (5x)查询所有注册日期早于2012年的昨日活跃用户且在最近一个月发表过博文的用户的点赞情况
 def workload2():
-
     workload_num = 5
     user_inform_table = read_user_inform()
     user_behavior_table = read_user_behavior()
@@ -202,19 +209,20 @@ def workload2():
                     mysql = "Select kv.set where kv.id in (Select sameid.id Join sameid (id = rel.id) Select rel.id" \
                             " Join rel (id = r1.id, register_date = register_date, log_time = log_time) r1, r2 r1.id " \
                             "= r2.id where register_date < %s0101 and log_time = %s, Select document.id where" \
-                            " document.date between 20200607 and 20200707 rel.id = document.id )" % (str(i), user_behavior_table[j][2])
-                    f.write(mysql+"\n")
+                            " document.date between 20200607 and 20200707 rel.id = document.id )" % (
+                                str(i), user_behavior_table[j][2])
+                    f.write(mysql + "\n")
                     mysql_dox = "Select document.id from document where document.date between 20200607 and 20200707;"
                     mysql_relation = "Select basicinfo.id from basicinfo join activity on basicinfo.id = activity.uid" \
                                      " join document_answer on basicinfo.id = document_answer.id" \
                                      " where basicinfo.register_date < %s0101 and" \
-                                     " activity.log_time = %s;"% (str(i), user_behavior_table[j][2])
+                                     " activity.log_time = %s;" % (str(i), user_behavior_table[j][2])
                     mysql_kv = "Select * from userlike where userlike.uid in (relation_answer.id);"
 
-                    f_single.write(mysql_dox+"\n"+mysql_relation+"\n"+mysql_kv+"\n")
-                    f_relation.write(mysql_relation+"\n")
-                    f_dox.write(mysql_dox+"\n")
-                    f_kv.write(mysql_kv+"\n")
+                    f_single.write(mysql_dox + "\n" + mysql_relation + "\n" + mysql_kv + "\n")
+                    f_relation.write(mysql_relation + "\n")
+                    f_dox.write(mysql_dox + "\n")
+                    f_kv.write(mysql_kv + "\n")
                     count += 1
             if count == workload_num:
                 f.close()
@@ -251,10 +259,10 @@ def workload3():
                          " basicinfo.register_date < %s0101 and" \
                          " log_time>= 20200701;" % str(i)
         mysql_kv = "Select * from userlike where userlike.uid in (relation_answer.id);"
-        f_dox.write(mysql_dox+"\n")
-        f_relation.write(mysql_relation+"\n")
-        f_single.write(mysql_relation+"\n"+mysql_dox+"\n"+mysql_kv+"\n")
-        f.write(mysql+"\n")
+        f_dox.write(mysql_dox + "\n")
+        f_relation.write(mysql_relation + "\n")
+        f_single.write(mysql_relation + "\n" + mysql_dox + "\n" + mysql_kv + "\n")
+        f.write(mysql + "\n")
         f_kv.write(mysql_kv + "\n")
     f.close()
     f_single.close()
@@ -266,7 +274,7 @@ def workload3():
 def workload4():
     workload_num = 10000
     occupation_list = ["teacher", "student", "doctor", "diver", "cleaner", "programmer", "scientist", "artist", "actor"]
-    type_user = ["高级用户", "普通用户"]
+    type_user = ["senior user", "common user"]
     count = 0
     f = open('workload/workload4', 'w', encoding='utf-8')
     f.close()
@@ -279,24 +287,27 @@ def workload4():
     f_single = open('workload/workload4_single', 'a', encoding='utf-8')
     f_relation = open('workload/workload_relation', 'a', encoding='utf-8')
 
-    while(True):
+    while (True):
         for i in range(0, len(blog_v)):
             for j in range(0, len(occupation_list)):
                 for k in range(0, len(type_user)):
                     for z in range(2010, 2021):
-                        mysql = "Select rel.* where rel.id in (Select gra.s join gra (s = a.s, o = a.o, p = a.p," \
-                                " bp = b.p, bo = b.o, cp = c.p, co = c.o) a, b, c a.s = b.s and a.s = c.s where" \
-                                " gra.p = 'follow' and gra.o = '%s' and gra.bp = 'position' and gra.bo = '%s' " \
-                                "gra.cp = 'type' and gra.co = '%s' ) and rel.register_date < %s0101" %(blog_v[i], occupation_list[j], type_user[k], str(z))
-                        mysql_graph = "Select a.s from graph a join graph b on a.s = b.s join graph c on" \
-                                      " a.s = c.s where a.p = 'follow' and a.o = '%s' and b.p = 'position'" \
-                                      " and b.o = '%s' c.p = 'type' and c.o = '%s';"%(blog_v[i], occupation_list[j], type_user[k])
+                        mysql = "Select rel.* where rel.id in (Select gra.s, gra.do join gra (s = a.s, o = a.o, " \
+                                "p = a.p, bp = b.p, bo = b.o, cp = c.p, co = c.o, dp = d.p, do = d.o) " \
+                                "a, b, c, d a.s = b.s and a.s = c.s and a.s = d.s where " \
+                                "gra.p = 'follow' and gra.o = '%s' and gra.bp = 'position' " \
+                                "and gra.bo = '%s' gra.cp = 'type' and gra.co = '%s' and gra.dp = 'name') " \
+                                "and rel.register_date < %s0101" % (blog_v[i], occupation_list[j], type_user[k], str(z))
+                        mysql_graph = "Select a.s, d.o from graph a join graph b on a.s = b.s join graph c on" \
+                                      " a.s = c.s join graph d on a.s = d.s where a.p = 'follow' and a.o = '%s' " \
+                                      "and b.p = 'position' and b.o = '%s' and c.p = 'type' and c.o = '%s' " \
+                                      "and d.p = 'name';" % (blog_v[i], occupation_list[j], type_user[k])
                         mysql_relation = "Select * from basicinfo where basicinfo.id " \
-                                         "in graph_answer.s and basicinfo.register_date < %s0101;"%str(z)
-                        f_graph.write(mysql_graph+"\n")
-                        f_relation.write(mysql_relation+"\n")
-                        f_single.write(mysql_relation+"\n"+mysql_graph+"\n")
-                        f.write(mysql+"\n")
+                                         "in graph_answer.s and basicinfo.register_date < %s0101;" % str(z)
+                        f_graph.write(mysql_graph + "\n")
+                        f_relation.write(mysql_relation + "\n")
+                        f_single.write(mysql_relation + "\n" + mysql_graph + "\n")
+                        f.write(mysql + "\n")
                         count += 1
                         if count == workload_num:
                             f.close()
@@ -304,6 +315,28 @@ def workload4():
                             f_relation.close()
                             f_graph.close()
                             return
+
+    # uid = []
+    # follow, comment = read_follow_comment()
+    # inform = read_user_inform()
+    # a = 0
+    # for i in range(0, len(follow)):
+    #     if follow[i][2] == "00972":
+    #         uid.append(follow[i][0])
+    # uidnew = []
+    # for i in range(0, len(uid)):
+    #     for j in range(0, len(inform)):
+    #         if inform[j][0] == uid[i] and inform[j][4] == "teacher":
+    #             uidnew.append(uid[i])
+    # print(len(uidnew))
+    #
+    # sen = read_senior_user()
+    # uid2 = []
+    # for i in range(0, len(uidnew)):
+    #     if uidnew[i] in sen:
+    #         uid2.append(uidnew[i])
+    # print(uid2)
+    #
 
 
 # (10000x)查询年龄在20-30，在20120501发表过博文的所有用户的点赞情况
@@ -326,15 +359,15 @@ def workload5():
         mysql = "Select kv.set where kv.id in (select id Join sameid (id = rel.id) Select rel.id where rel.age " \
                 "between 20 and 30, Select document.id where document.date = %s " \
                 "rel.id = document.id)" % str(c[i])
-        mysql_dox = "Select document.id from document where document.date = %s;"% str(c[i])
-        mysql_relation ="select basicinfo.id from basicinfo join document_answer on" \
-                        " basicinfo.id=document_answer.id where basicinfo.age between 20 and 30;"
+        mysql_dox = "Select document.id from document where document.date = %s;" % str(c[i])
+        mysql_relation = "select basicinfo.id from basicinfo join document_answer on" \
+                         " basicinfo.id=document_answer.id where basicinfo.age between 20 and 30;"
         mysql_kv = "Select * from userlike where userlike.uid in relation_answer.id;"
-        f_dox.write(mysql_dox+"\n")
-        f_relation.write(mysql_relation+"\n")
-        f_kv.write(mysql_kv+"\n")
-        f_single.write(mysql_dox+"\n"+mysql_relation+"\n"+mysql_kv+"\n")
-        f.write(mysql+"\n")
+        f_dox.write(mysql_dox + "\n")
+        f_relation.write(mysql_relation + "\n")
+        f_kv.write(mysql_kv + "\n")
+        f_single.write(mysql_dox + "\n" + mysql_relation + "\n" + mysql_kv + "\n")
+        f.write(mysql + "\n")
     f.close()
     f_single.close()
     f_kv.close()
@@ -386,19 +419,19 @@ def workload6():
     f = open('workload/workload6', 'a', encoding='utf-8')
     topic_list = ["大学", "开学", "美食", "校园", "旅行", "哈尔滨", "汽车", "农业", "明星", "计算机", "医疗", "美容", "百货",
                   "高考", "疫情", "能源", "军事", "毕业", "北京", "河北", "校庆", "美容", "抖音", "武汉", "美国", "互联网"]
-    c = normal_generate(0, len(topic_list)-1, len(topic_list)/2, len(topic_list), workload_num)
+    c = normal_generate(0, len(topic_list) - 1, len(topic_list) / 2, len(topic_list), workload_num)
     for i in range(0, len(c)):
-        mysql = "Select kv.set where kv .id in (Select gra.s join gra (s = a.s, o = a.o, p = a.p, bp = b.p, bo = b.o," \
-                " cp = c.p, co = c.o ) a, b, c a.s = b.s and b.p = c.s where gra.p = 'type' and gra.o = 'senior user'" \
+        mysql = "Select kv.set where kv.id in (Select gra.s join gra (s = a.s, o = a.o, p = a.p, bp = b.p, bo = b.o," \
+                " cp = c.p, co = c.o) a, b, c a.s = b.s and b.o = c.s where gra.p = 'type' and gra.o = 'senior user'" \
                 " and gra.bp = 'comment' and gra.cp = 'topic' and gra.co = '%s')" % str(topic_list[c[i]])
-        mysql_graph = "Select a.s from graph a join graph b on a.s = b.s join graph c on b.p = c.s" \
+        mysql_graph = "Select a.s from graph a join graph b on a.s = b.s join graph c on b.o = c.s" \
                       " where a.p = 'type' and a.o = 'senior user' and b.p = 'comment'" \
                       " and c.p = 'topic' and c.o = '%s';" % str(topic_list[c[i]])
         mysql_kv = "Select * from userlike where userlike.uid in graph_answer.s;"
 
-        f_graph.write(mysql_graph+"\n")
-        f_single.write(mysql_graph+"\n"+mysql_kv+"\n")
-        f_kv.write(mysql_kv+"\n")
+        f_graph.write(mysql_graph + "\n")
+        f_single.write(mysql_graph + "\n" + mysql_kv + "\n")
+        f_kv.write(mysql_kv + "\n")
         f.write(mysql + "\n")
     f.close()
     f_single.close()
@@ -407,6 +440,8 @@ def workload6():
 
 
 if __name__ == '__main__':
+    np.random.seed(42)
+    random.seed(10)
     f_graph_re = open('workload/workload_graph', 'w', encoding='utf-8')
     f_kv_re = open('workload/workload_kv', 'w', encoding='utf-8')
     f_dox_re = open('workload/workload_dox', 'w', encoding='utf-8')
