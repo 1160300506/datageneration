@@ -1,4 +1,6 @@
 - 2020-09-07更新
+    修改了所有的sql语句，并增添了cql语句，分别存储在workload_default.txt workload_intelligence_sql.txt workload_intelligence_cql.txt workload_artificial.txt。
+- 2020-09-07更新
     按照图数据库对query复杂性的要求，修改了数据生成中的关于图的前两个模态，并在主函数中增加了factor变量，当factor=1时，图模态的数据量为60w条左右，此外更新了数据和负载生成的随机种子设置。
 
 ## 目录结构      

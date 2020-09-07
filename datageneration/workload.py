@@ -84,7 +84,11 @@ def read_senior_user():
 
 
 # 查询关注了某大V的发表过‘手机’话题博文的女性用户在过去一周的登录设备统计。
+<<<<<<< HEAD
 def workload1():
+=======
+def workload1(mode=0):
+>>>>>>> 关系更新
     workload_num = 100
     topic_list = ["大学", "开学", "美食", "校园", "旅行", "哈尔滨", "汽车", "农业", "明星", "计算机", "医疗", "美容", "百货",
                   "高考", "疫情", "能源", "军事", "毕业", "北京", "河北", "校庆", "美容", "抖音", "武汉", "美国", "互联网"]
@@ -100,7 +104,14 @@ def workload1():
     f_single.close()
     f_single = open('workload/workload1_single', 'a', encoding='utf-8')
     f_graph = open('workload/workload_graph', 'a', encoding='utf-8')
+<<<<<<< HEAD
     f_relation = open('workload/workload_relation', 'a', encoding='utf-8')
+=======
+    f_relation_default = open('workload/workload_default.txt', 'a', encoding='utf-8')
+    f_relation_intelligence_sql = open('workload/workload_intelligence_sql.txt', 'a', encoding='utf-8')
+    f_relation_intelligence_cql = open('workload/workload_intelligence_cql.txt', 'a', encoding='utf-8')
+    f_relation_artificial = open('workload/workload_artificial.txt', 'a', encoding='utf-8')
+>>>>>>> 关系更新
 
     count = 0
     for i in range(0, len(topic_list)):
@@ -123,15 +134,41 @@ def workload1():
 
             f_graph.write(sql_graph + "\n")
             f_single.write(sql_graph + "\n")
+<<<<<<< HEAD
             sql_relation = "Select activity.device, count(activity.device) as device_count from activity where" \
                            " activity.log_time between %s and %s and activity.uid in" \
                            " graph_answer.s group by device;" % ("20200701", "20200707")
             f_relation.write(sql_relation + "\n")
+=======
+            sql_relation = ""
+            if mode == 0:
+                sql_relation = "Select activity.device, count(activity.device) as device_count from activity where" \
+                           " activity.log_time between %s and %s and uid >= 101 and uid <= 105" \
+                           " group by device;" % ("20200701", "20200707")
+                f_relation_default.write(sql_relation + "\n")
+            if mode == 1:
+                cql_relation = "Select device from activity where" \
+                               " log_time >= '%s' and log_time <= '%s' and uid >= 101 and uid <= 105" \
+                               " allow filtering;" % ("2020-07-01", "2020-07-07")
+                f_relation_intelligence_cql.write(cql_relation + "\n")
+            if mode == 2:
+                cql_relation = "Select device from activity where" \
+                               " log_time >= '%s' and log_time <= '%s' and uid >= 101 and uid <= 105" \
+                               " allow filtering;" % ("'2020-07-01'", "'2020-07-07'")
+                f_relation_artificial.write(cql_relation + "\n")
+>>>>>>> 关系更新
             f_single.write(sql_relation + "\n")
             if count == workload_num:
                 f.close()
                 f_single.close()
+<<<<<<< HEAD
                 f_relation.close()
+=======
+                f_relation_default.close()
+                f_relation_intelligence_sql.close()
+                f_relation_intelligence_cql.close()
+                f_relation_artificial.close()
+>>>>>>> 关系更新
                 f_graph.close()
                 return
 
@@ -173,7 +210,11 @@ def workload1():
 
 
 # (5x)查询所有注册日期早于2012年的昨日活跃用户且在最近一个月发表过博文的用户的点赞情况
+<<<<<<< HEAD
 def workload2():
+=======
+def workload2(mode=0):
+>>>>>>> 关系更新
     workload_num = 5
     user_inform_table = read_user_inform()
     user_behavior_table = read_user_behavior()
@@ -186,7 +227,14 @@ def workload2():
     f_single.close()
     f_single = open('workload/workload2_single', 'a', encoding='utf-8')
     f_dox = open('workload/workload_dox', 'a', encoding='utf-8')
+<<<<<<< HEAD
     f_relation = open('workload/workload_relation', 'a', encoding='utf-8')
+=======
+    f_relation_default = open('workload/workload_default.txt', 'a', encoding='utf-8')
+    f_relation_intelligence_sql = open('workload/workload_intelligence_sql.txt', 'a', encoding='utf-8')
+    f_relation_intelligence_cql = open('workload/workload_intelligence_cql.txt', 'a', encoding='utf-8')
+    f_relation_artificial = open('workload/workload_artificial.txt', 'a', encoding='utf-8')
+>>>>>>> 关系更新
     f_kv = open('workload/workload_kv', 'a', encoding='utf-8')
 
     for i in range(2001, 2021):
@@ -213,6 +261,7 @@ def workload2():
                                 str(i), user_behavior_table[j][2])
                     f.write(mysql + "\n")
                     mysql_dox = "Select document.id from document where document.date between 20200607 and 20200707;"
+<<<<<<< HEAD
                     mysql_relation = "Select basicinfo.id from basicinfo join activity on basicinfo.id = activity.uid" \
                                      " join document_answer on basicinfo.id = document_answer.id" \
                                      " where basicinfo.register_date < %s0101 and" \
@@ -221,12 +270,50 @@ def workload2():
 
                     f_single.write(mysql_dox + "\n" + mysql_relation + "\n" + mysql_kv + "\n")
                     f_relation.write(mysql_relation + "\n")
+=======
+                    sql_relation = ""
+                    if mode == 0:
+                        sql_relation = "Select basicinfo.id from basicinfo join activity on basicinfo.id = activity.uid" \
+                                       " where basicinfo.register_date < %s0101 and uid >= 101 and uid <= 105" \
+                                       " activity.log_time = %s;" % (str(i), user_behavior_table[j][2])
+                        f_relation_default.write(sql_relation + "\n")
+                    if mode == 1:
+                        sql_relation = "select id from basicinfo where id >= 101 and id <= 105" \
+                                       " and register_date < %s0101;" %str(i)
+                        cql_relation = "select uid from activity where uid >= 101 and uid <= 105" \
+                                       " and log_time = '%c%c%c%c-%c%c-%c%c' allow filtering;" % (user_behavior_table[j][2][0], user_behavior_table[j][2][1],
+                                                                               user_behavior_table[j][2][2], user_behavior_table[j][2][3],
+                                                                               user_behavior_table[j][2][4], user_behavior_table[j][2][5],
+                                                                               user_behavior_table[j][2][6], user_behavior_table[j][2][7])
+                        f_relation_intelligence_sql.write(sql_relation + "\n")
+                        f_relation_intelligence_cql.write(cql_relation + "\n")
+                    if mode == 2:
+                        cql_relation = "select uid from activity where uid >= 101 and uid <= 105" \
+                                       " and log_time = '%c%c%c%c-%c%c-%c%c' allow filtering;" % (
+                                       user_behavior_table[j][2][0], user_behavior_table[j][2][1],
+                                       user_behavior_table[j][2][2], user_behavior_table[j][2][3],
+                                       user_behavior_table[j][2][4], user_behavior_table[j][2][5],
+                                       user_behavior_table[j][2][6], user_behavior_table[j][2][7])
+                        f_relation_artificial.write(cql_relation + "\n")
+                        cql_relation = "select id from basicinfo where id >= 101 and id <= 105 and register_date = '%s-01-01' allow filtering;" %str(i)
+                        f_relation_artificial.write(cql_relation + "\n")
+                    mysql_kv = "Select * from userlike where userlike.uid in (relation_answer.id);"
+
+                    f_single.write(mysql_dox + "\n" + sql_relation + "\n" + mysql_kv + "\n")
+>>>>>>> 关系更新
                     f_dox.write(mysql_dox + "\n")
                     f_kv.write(mysql_kv + "\n")
                     count += 1
             if count == workload_num:
                 f.close()
+<<<<<<< HEAD
                 f_relation.close()
+=======
+                f_relation_default.close()
+                f_relation_intelligence_sql.close()
+                f_relation_intelligence_cql.close()
+                f_relation_artificial.close()
+>>>>>>> 关系更新
                 f_single.close()
                 f_dox.close()
                 f_kv.close()
@@ -234,7 +321,11 @@ def workload2():
 
 
 #  (5x) 查询所有注册日期早于2012年的本周活跃用户且在最近一年发表过博文的用户的点赞情况
+<<<<<<< HEAD
 def workload3():
+=======
+def workload3(mode=0):
+>>>>>>> 关系更新
     workload_num = 5
 
     f = open('workload/workload3', 'w', encoding='utf-8')
@@ -246,7 +337,14 @@ def workload3():
     f_single.close()
     f_single = open('workload/workload3_single', 'a', encoding='utf-8')
     f_dox = open('workload/workload_dox', 'a', encoding='utf-8')
+<<<<<<< HEAD
     f_relation = open('workload/workload_relation', 'a', encoding='utf-8')
+=======
+    f_relation_default = open('workload/workload_default.txt', 'a', encoding='utf-8')
+    f_relation_intelligence_sql = open('workload/workload_intelligence_sql.txt', 'a', encoding='utf-8')
+    f_relation_intelligence_cql = open('workload/workload_intelligence_cql.txt', 'a', encoding='utf-8')
+    f_relation_artificial = open('workload/workload_artificial.txt', 'a', encoding='utf-8')
+>>>>>>> 关系更新
 
     for i in range(2012, 2017):
         mysql = "Select kv.set where kv.id in (Select sameid.id Join sameid (id = rel.id) Select rel.id Join rel" \
@@ -254,6 +352,7 @@ def workload3():
                 " register_date < %s0101 and log_time>= 20200701 , Select document.id where document.date" \
                 " 20190707 and 20200707 rel.id = document.id )" % str(i)
         mysql_dox = "Select document.id from document where document.date between 20190707 and 20200707;"
+<<<<<<< HEAD
         mysql_relation = "Select basicinfo.id from basicinfo join activity on basicinfo.id = activity.uid join" \
                          " document_answer on basicinfo.id = document_answer.id where" \
                          " basicinfo.register_date < %s0101 and" \
@@ -262,16 +361,52 @@ def workload3():
         f_dox.write(mysql_dox + "\n")
         f_relation.write(mysql_relation + "\n")
         f_single.write(mysql_relation + "\n" + mysql_dox + "\n" + mysql_kv + "\n")
+=======
+        sql_relation = ""
+        if mode == 0:
+            sql_relation = "Select basicinfo.id from basicinfo join activity on basicinfo.id = activity.uid" \
+                           " where basicinfo.register_date < %s0101 and uid >= 101 and uid <= 105" \
+                           " activity.log_time >= 20200701;" % (str(i))
+            f_relation_default.write(sql_relation + "\n")
+        if mode == 1:
+            cql_relation = "select uid from activity where uid >= 101 and uid <= 105;" \
+                           " and log_time >= '2020-07-01' allow filtering"
+            sql_relation = "select id from basicinfo where id >= 101 and id <= 105;" \
+                           " and register_date < %s0101" % str(i)
+            f_relation_intelligence_sql.write(sql_relation + "\n")
+            f_relation_intelligence_cql.write(cql_relation + "\n")
+        if mode == 2:
+            cql_relation = "select id from basicinfo where id >= 101 and id <= 105 and register_date = '%s-01-01' allow filtering;" % str(
+                i)
+            f_relation_artificial.write(cql_relation + "\n")
+            cql_relation = "select uid from activity where uid >= 101 and uid <= 105" \
+                           " and log_time >= '2020-07-01' allow filtering;"
+            f_relation_artificial.write(cql_relation + "\n")
+        mysql_kv = "Select * from userlike where userlike.uid in (relation_answer.id);"
+        f_dox.write(mysql_dox + "\n")
+        f_single.write(sql_relation + "\n" + mysql_dox + "\n" + mysql_kv + "\n")
+>>>>>>> 关系更新
         f.write(mysql + "\n")
         f_kv.write(mysql_kv + "\n")
     f.close()
     f_single.close()
+<<<<<<< HEAD
     f_relation.close()
+=======
+    f_relation_default.close()
+    f_relation_intelligence_sql.close()
+    f_relation_intelligence_cql.close()
+    f_relation_artificial.close()
+>>>>>>> 关系更新
     f_dox.close()
     f_kv.close()
 
 
+<<<<<<< HEAD
 def workload4():
+=======
+def workload4(mode=0):
+>>>>>>> 关系更新
     workload_num = 10000
     occupation_list = ["teacher", "student", "doctor", "diver", "cleaner", "programmer", "scientist", "artist", "actor"]
     type_user = ["senior user", "common user"]
@@ -285,7 +420,14 @@ def workload4():
     f_single = open('workload/workload4_single', 'w', encoding='utf-8')
     f_single.close()
     f_single = open('workload/workload4_single', 'a', encoding='utf-8')
+<<<<<<< HEAD
     f_relation = open('workload/workload_relation', 'a', encoding='utf-8')
+=======
+    f_relation_default = open('workload/workload_default.txt', 'a', encoding='utf-8')
+    f_relation_intelligence_sql = open('workload/workload_intelligence_sql.txt', 'a', encoding='utf-8')
+    f_relation_intelligence_cql = open('workload/workload_intelligence_cql.txt', 'a', encoding='utf-8')
+    f_relation_artificial = open('workload/workload_artificial.txt', 'a', encoding='utf-8')
+>>>>>>> 关系更新
 
     while (True):
         for i in range(0, len(blog_v)):
@@ -302,17 +444,42 @@ def workload4():
                                       " a.s = c.s join graph d on a.s = d.s where a.p = 'follow' and a.o = '%s' " \
                                       "and b.p = 'position' and b.o = '%s' and c.p = 'type' and c.o = '%s' " \
                                       "and d.p = 'name';" % (blog_v[i], occupation_list[j], type_user[k])
+<<<<<<< HEAD
                         mysql_relation = "Select * from basicinfo where basicinfo.id " \
                                          "in graph_answer.s and basicinfo.register_date < %s0101;" % str(z)
                         f_graph.write(mysql_graph + "\n")
                         f_relation.write(mysql_relation + "\n")
                         f_single.write(mysql_relation + "\n" + mysql_graph + "\n")
+=======
+                        sql_relation = ""
+                        if mode == 0:
+                            sql_relation = "Select * from basicinfo where id " \
+                                           ">= 101 and id <= 105 and basicinfo.register_date < %s0101;" % str(z)
+                            f_relation_default.write(sql_relation + "\n")
+                        if mode == 1:
+                            sql_relation = "Select * from basicinfo where id " \
+                                           ">= 101 and id <= 105 and basicinfo.register_date < %s0101;" % str(z)
+                            f_relation_intelligence_sql.write(sql_relation + "\n")
+                        if mode == 2:
+                            cql_relation = "select * from basicinfo where id >= 101 and id <= 105" \
+                                           " and register_date < '%s-01-01' allow filtering;" % str(z)
+                            f_relation_artificial.write(cql_relation + "\n")
+                        f_graph.write(mysql_graph + "\n")
+                        f_single.write(sql_relation + "\n" + mysql_graph + "\n")
+>>>>>>> 关系更新
                         f.write(mysql + "\n")
                         count += 1
                         if count == workload_num:
                             f.close()
                             f_single.close()
+<<<<<<< HEAD
                             f_relation.close()
+=======
+                            f_relation_default.close()
+                            f_relation_intelligence_sql.close()
+                            f_relation_intelligence_cql.close()
+                            f_relation_artificial.close()
+>>>>>>> 关系更新
                             f_graph.close()
                             return
 
@@ -340,7 +507,11 @@ def workload4():
 
 
 # (10000x)查询年龄在20-30，在20120501发表过博文的所有用户的点赞情况
+<<<<<<< HEAD
 def workload5():
+=======
+def workload5(mode=0):
+>>>>>>> 关系更新
     workload_num = 10000
     f = open('workload/workload5', 'w', encoding='utf-8')
     f.close()
@@ -350,7 +521,14 @@ def workload5():
     f_single.close()
     f_single = open('workload/workload5_single', 'a', encoding='utf-8')
 
+<<<<<<< HEAD
     f_relation = open('workload/workload_relation', 'a', encoding='utf-8')
+=======
+    f_relation_default = open('workload/workload_default.txt', 'a', encoding='utf-8')
+    f_relation_intelligence_sql = open('workload/workload_intelligence_sql.txt', 'a', encoding='utf-8')
+    f_relation_intelligence_cql = open('workload/workload_intelligence_cql.txt', 'a', encoding='utf-8')
+    f_relation_artificial = open('workload/workload_artificial.txt', 'a', encoding='utf-8')
+>>>>>>> 关系更新
     f_kv = open('workload/workload_kv', 'a', encoding='utf-8')
     f_dox = open('workload/workload_dox', 'a', encoding='utf-8')
 
@@ -360,6 +538,7 @@ def workload5():
                 "between 20 and 30, Select document.id where document.date = %s " \
                 "rel.id = document.id)" % str(c[i])
         mysql_dox = "Select document.id from document where document.date = %s;" % str(c[i])
+<<<<<<< HEAD
         mysql_relation = "select basicinfo.id from basicinfo join document_answer on" \
                          " basicinfo.id=document_answer.id where basicinfo.age between 20 and 30;"
         mysql_kv = "Select * from userlike where userlike.uid in relation_answer.id;"
@@ -367,11 +546,33 @@ def workload5():
         f_relation.write(mysql_relation + "\n")
         f_kv.write(mysql_kv + "\n")
         f_single.write(mysql_dox + "\n" + mysql_relation + "\n" + mysql_kv + "\n")
+=======
+        sql_relation = ""
+        if mode == 0:
+            sql_relation = "select basicinfo.id from basicinfo" \
+                           " where basicinfo.age between 20 and 30 and id >= 101 and id <= 105;"
+            f_relation_default.write(sql_relation + "\n")
+        if mode == 1:
+            sql_relation = "select basicinfo.id from basicinfo" \
+                           " where basicinfo.age between 20 and 30 and id >= 101 and id <= 105;"
+            f_relation_intelligence_sql.write(sql_relation + "\n")
+        if mode == 2:
+            cql_relation = "select id from basicinfo where age >= 20 and age <= 30" \
+                           " and id >= 101 and id <= 105 allow filtering;"
+            f_relation_artificial.write(cql_relation + "\n")
+        mysql_kv = "Select * from userlike where userlike.uid in relation_answer.id;"
+        f_dox.write(mysql_dox + "\n")
+        f_kv.write(mysql_kv + "\n")
+        f_single.write(mysql_dox + "\n" + sql_relation + "\n" + mysql_kv + "\n")
+>>>>>>> 关系更新
         f.write(mysql + "\n")
     f.close()
     f_single.close()
     f_kv.close()
+<<<<<<< HEAD
     f_relation.close()
+=======
+>>>>>>> 关系更新
     f_dox.close()
 
     # 再次生成一组同分布的负载
@@ -390,6 +591,7 @@ def workload5():
                 "between 20 and 30, Select document.id where document.date = %s " \
                 "rel.id = document.id)" % str(c[i])
         mysql_dox = "Select document.id from document where document.date = %s;" % str(c[i])
+<<<<<<< HEAD
         mysql_relation = "select basicinfo.id from basicinfo join document_answer on" \
                          " basicinfo.id=document_answer.id where basicinfo.age between 20 and 30;"
         mysql_kv = "Select * from userlike where userlike.uid in relation_answer.id;"
@@ -397,16 +599,47 @@ def workload5():
         f_relation.write(mysql_relation + "\n")
         f_kv.write(mysql_kv + "\n")
         f_single.write(mysql_dox + "\n" + mysql_relation + "\n" + mysql_kv + "\n")
+=======
+        sql_relation = ""
+        if mode == 0:
+            sql_relation = "select basicinfo.id from basicinfo" \
+                           " where basicinfo.age between 20 and 30 and id >= 101 and id <= 105;"
+            f_relation_default.write(sql_relation + "\n")
+        if mode == 1:
+            sql_relation = "select basicinfo.id from basicinfo" \
+                           " where basicinfo.age between 20 and 30 and id >= 101 and id <= 105;"
+            f_relation_intelligence_sql.write(sql_relation + "\n")
+        if mode == 2:
+            cql_relation = "select id from basicinfo where age >= 20 and age <= 30" \
+                           " and id >= 101 and id <= 105 allow filtering;"
+            f_relation_artificial.write(cql_relation + "\n")
+        mysql_kv = "Select * from userlike where userlike.uid in relation_answer.id;"
+        f_dox.write(mysql_dox + "\n")
+        f_relation.write(sql_relation + "\n")
+        f_kv.write(mysql_kv + "\n")
+        f_single.write(mysql_dox + "\n" + sql_relation + "\n" + mysql_kv + "\n")
+>>>>>>> 关系更新
         f.write(mysql + "\n")
     f.close()
     f_single.close()
     f_kv.close()
     f_relation.close()
+<<<<<<< HEAD
+=======
+    f_relation_default.close()
+    f_relation_intelligence_sql.close()
+    f_relation_intelligence_cql.close()
+    f_relation_artificial.close()
+>>>>>>> 关系更新
     f_dox.close()
 
 
 #  (10000x)查询评论过话题为‘大学’的博文的高级用户的点赞情况
+<<<<<<< HEAD
 def workload6():
+=======
+def workload6(mode=0):
+>>>>>>> 关系更新
     workload_num = 10000
     f_graph = open('workload/workload_graph', 'a', encoding='utf-8')
     f_single = open('workload/workload6_single', 'w', encoding='utf-8')
@@ -452,6 +685,7 @@ if __name__ == '__main__':
     f_relation_re.close()
 
     temp_kv = open('workload/temp_kv', 'r', encoding='utf-8')
+<<<<<<< HEAD
     temp_relation = open('workload/temp_relation', 'r', encoding='utf-8')
     f_relation_re = open('workload/workload_relation', 'a', encoding='utf-8')
     f_kv_re = open('workload/workload_kv', 'a', encoding='utf-8')
@@ -470,3 +704,31 @@ if __name__ == '__main__':
     workload4()
     workload5()
     workload6()
+=======
+    temp1_relation = open('workload/temp1_relation', 'r', encoding='utf-8')
+    f_relation_re = open('workload/workload_default.txt', 'a', encoding='utf-8')
+    temp2_relation = open('workload/temp2_relation', 'r', encoding='utf-8')
+    f_relation_re1 = open('workload/workload_intelligence_cql.txt', 'a', encoding='utf-8')
+    f_relation_re2 = open('workload/workload_artificial.txt', 'a', encoding='utf-8')
+    f_kv_re = open('workload/workload_kv', 'a', encoding='utf-8')
+    for line in temp1_relation:
+        f_relation_re.write(line)
+    for line in temp2_relation:
+        f_relation_re1.write(line)
+        f_relation_re2.write(line)
+    for line in temp_kv:
+        f_kv_re.write(line)
+    f_relation_re.close()
+    f_relation_re1.close()
+    f_relation_re2.close()
+    f_kv_re.close()
+    temp1_relation.close()
+    temp_kv.close()
+
+    workload1(2)
+    workload2(2)
+    workload3(2)
+    workload4(2)
+    workload5(2)
+    workload6(2)
+>>>>>>> 关系更新

@@ -14,6 +14,7 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="ProjectId" id="1elTlS4MVuQmu0lIqUFRwvwa6i0" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -24,6 +25,29 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
+=======
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1elTlS4MVuQmu0lIqUFRwvwa6i0" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\DriveY\pycharm\datageneration" />
+    </key>
+>>>>>>> 关系更新
   </component>
   <component name="RunManager" selected="Python.workload">
     <configuration name="generation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -38,6 +62,10 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+<<<<<<< HEAD
+=======
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+>>>>>>> 关系更新
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/generation.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -59,6 +87,10 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+<<<<<<< HEAD
+=======
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+>>>>>>> 关系更新
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/workload.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -85,14 +117,38 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1594895330802</updated>
+<<<<<<< HEAD
     </task>
     <servers />
   </component>
+=======
+      <workItem from="1598577468984" duration="13000" />
+      <workItem from="1598587192742" duration="1801000" />
+      <workItem from="1598626389093" duration="698000" />
+      <workItem from="1598859441623" duration="3895000" />
+      <workItem from="1599109563081" duration="813000" />
+      <workItem from="1599115079028" duration="625000" />
+      <workItem from="1599192028629" duration="4838000" />
+      <workItem from="1599267918305" duration="13000" />
+      <workItem from="1599271040155" duration="2493000" />
+      <workItem from="1599308071765" duration="2776000" />
+      <workItem from="1599373577544" duration="549000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+>>>>>>> 关系更新
   <component name="WindowStateProjectService">
     <state x="503" y="215" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1595926472996">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="503" y="215" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1595926472996" />
+<<<<<<< HEAD
     <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1596375101999">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -113,6 +169,53 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1515" height="285" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1596457422973" />
+=======
+    <state x="489" y="170" width="524" height="507" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1599466479611">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1598535867728" />
+    <state x="489" y="170" width="524" height="507" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/67.27.1299.741@67.27.1299.741" timestamp="1599466479611" />
+    <state x="404" y="6" key="CommitChangelistDialog2" timestamp="1596522031467">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="404" y="6" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1596522031467" />
+    <state x="147" y="65" key="DiffContextDialog" timestamp="1596521917708">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="147" y="65" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1596521917708" />
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1598536028621">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1598536028621" />
+    <state width="1272" height="98" key="GridCell.Tab.0.bottom" timestamp="1599466536818">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state width="1238" height="177" key="GridCell.Tab.0.bottom/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1598860216130" />
+    <state width="1493" height="177" key="GridCell.Tab.0.bottom/0.0.1280.760/2560.0.1536.824@2560.0.1536.824" timestamp="1599314947551" />
+    <state width="1515" height="87" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1598540189683" />
+    <state width="1272" height="98" key="GridCell.Tab.0.bottom/67.27.1299.741@67.27.1299.741" timestamp="1599466536818" />
+    <state width="1272" height="98" key="GridCell.Tab.0.center" timestamp="1599466536817">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state width="1238" height="177" key="GridCell.Tab.0.center/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1598860216130" />
+    <state width="1493" height="177" key="GridCell.Tab.0.center/0.0.1280.760/2560.0.1536.824@2560.0.1536.824" timestamp="1599314947551" />
+    <state width="1515" height="87" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1598540189683" />
+    <state width="1272" height="98" key="GridCell.Tab.0.center/67.27.1299.741@67.27.1299.741" timestamp="1599466536817" />
+    <state width="1272" height="98" key="GridCell.Tab.0.left" timestamp="1599466536816">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state width="1238" height="177" key="GridCell.Tab.0.left/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1598860216129" />
+    <state width="1493" height="177" key="GridCell.Tab.0.left/0.0.1280.760/2560.0.1536.824@2560.0.1536.824" timestamp="1599314947551" />
+    <state width="1515" height="87" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1598540189682" />
+    <state width="1272" height="98" key="GridCell.Tab.0.left/67.27.1299.741@67.27.1299.741" timestamp="1599466536816" />
+    <state width="1272" height="98" key="GridCell.Tab.0.right" timestamp="1599466536817">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state width="1238" height="177" key="GridCell.Tab.0.right/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1598860216130" />
+    <state width="1493" height="177" key="GridCell.Tab.0.right/0.0.1280.760/2560.0.1536.824@2560.0.1536.824" timestamp="1599314947551" />
+    <state width="1515" height="87" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1598540189683" />
+    <state width="1272" height="98" key="GridCell.Tab.0.right/67.27.1299.741@67.27.1299.741" timestamp="1599466536817" />
+>>>>>>> 关系更新
     <state width="1515" height="261" key="GridCell.Tab.1.bottom" timestamp="1595695201413">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -129,6 +232,7 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1515" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1595695201413" />
+<<<<<<< HEAD
     <state x="270" y="54" key="SettingsEditor" timestamp="1595906673487">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -137,6 +241,18 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="449" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1596455622776" />
+=======
+    <state x="241" y="38" key="SettingsEditor" timestamp="1599397475886">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state x="270" y="54" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1596521771966" />
+    <state x="241" y="38" key="SettingsEditor/67.27.1299.741@67.27.1299.741" timestamp="1599397475886" />
+    <state x="3009" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1599308083309">
+      <screen x="2560" y="0" width="1536" height="824" />
+    </state>
+    <state x="3009" y="236" key="com.intellij.ide.util.TipDialog/0.0.1280.760/2560.0.1536.824@2560.0.1536.824" timestamp="1599308083309" />
+    <state x="449" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1598535536037" />
+>>>>>>> 关系更新
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1595852080170">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
