@@ -115,14 +115,8 @@ def user_behavior_generate(user_num, user_behavior_num, user_device_max, user_in
         user_behavior.append(device)
         writer.writerow(user_behavior)
     # 生成插入workload
-<<<<<<< HEAD
-    f1 = open('workload/temp_relation', 'w', encoding='utf-8')
-    f1.close()
-    f = open('workload/temp_relation', 'a', encoding='utf-8')
-=======
     r1 = open('workload/temp1_relation', 'a', encoding='utf-8')
     r2 = open('workload/temp2_relation', 'a', encoding='utf-8')
->>>>>>> 关系更新
     for i in range(user_behavior_num, user_behavior_num+10000):
         user_behavior = []
         id = ("%0" + str(id_len) + "d") % (i + 1)
@@ -144,11 +138,6 @@ def user_behavior_generate(user_num, user_behavior_num, user_device_max, user_in
         t = random.randint(start, end)
         date_touple = time.localtime(t)
         log_time = time.strftime("%Y%m%d", date_touple)
-<<<<<<< HEAD
-        mysql = "insert into activity values(%s, %s, %s, %s, %s)"%(id, uid, log_time, ip, device)
-        f.write(mysql+"\n")
-    f.close()
-=======
         sql = "insert into activity values(%s, %s, %s, '%s', '%s')" % (id, uid, log_time, ip, device)
         r1.write(sql + "\n")
         cql = "insert into activity(id, uid, log_time, ip, device) values(%s, %s, '%c%c%c%c-%c%c-%c%c', '%s', '%s')"%(id, uid, log_time[0],
@@ -159,7 +148,6 @@ def user_behavior_generate(user_num, user_behavior_num, user_device_max, user_in
 
     r1.close()
     r2.close()
->>>>>>> 关系更新
     csvFile.close()
 
 
