@@ -84,7 +84,6 @@ def read_senior_user():
 
 
 # 查询关注了某大V的发表过‘手机’话题博文的女性用户在过去一周的登录设备统计。
-
 def workload1(mode=0):
     workload_num = 100
     topic_list = ["大学", "开学", "美食", "校园", "旅行", "哈尔滨", "汽车", "农业", "明星", "计算机", "医疗", "美容", "百货",
@@ -101,7 +100,6 @@ def workload1(mode=0):
     f_single.close()
     f_single = open('workload/workload1_single', 'a', encoding='utf-8')
     f_graph = open('workload/workload_graph', 'a', encoding='utf-8')
-
     f_relation_default = open('workload/workload_default.txt', 'a', encoding='utf-8')
     f_relation_intelligence_sql = open('workload/workload_intelligence_sql.txt', 'a', encoding='utf-8')
     f_relation_intelligence_cql = open('workload/workload_intelligence_cql.txt', 'a', encoding='utf-8')
@@ -422,6 +420,14 @@ def workload4(mode=0):
     # print(uid2)
     #
 
+def load_blog_data(path):
+    data_list = []
+    with open(path, 'r') as f:
+        for json_str in f.readlines():  # 按行读取json文件，每行为一个字符串
+            data = json.loads(json_str)  # 将字符串转化为列表
+            data_list.append(data['date'])
+    data_list.sort()
+    return data_list
 
 # (10000x)查询年龄在20-30，在20120501发表过博文的所有用户的点赞情况
 def workload5(mode=0):
@@ -441,12 +447,18 @@ def workload5(mode=0):
     f_kv = open('workload/workload_kv', 'a', encoding='utf-8')
     f_dox = open('workload/workload_dox', 'a', encoding='utf-8')
 
-    c = normal_generate(20000101, 20200707, 20100101, 3650, workload_num)
+    data_list = load_blog_data('data/blog_dox.json')
+
+    #print(data_list.index('20000103')) 0
+    #print(data_list.index('20200707')) 99892
+    #print(data_list.index('20100101')) 14425
+
+    c = normal_generate(0, 99892, 14425, 3650, workload_num)
     for i in range(0, len(c)):
         mysql = "Select kv.set where kv.id in (select id Join sameid (id = rel.id) Select rel.id where rel.age " \
                 "between 20 and 30, Select document.id where document.date = %s " \
-                "rel.id = document.id)" % str(c[i])
-        mysql_dox = "Select document.id from document where document.date = %s;" % str(c[i])
+                "rel.id = document.id)" % str(data_list[c[i]])
+        mysql_dox = "Select document.id from document where document.date = %s;" % str(data_list[c[i]])
         sql_relation = ""
         if mode == 0:
             sql_relation = "select basicinfo.id from basicinfo" \
@@ -471,7 +483,7 @@ def workload5(mode=0):
     f_dox.close()
 
     # 再次生成一组同分布的负载
-    c = normal_generate(20000101, 20200707, 20100101, 3650, workload_num)
+    c = normal_generate(0, 99892, 14425, 3650, workload_num)
     f = open('workload/workload5a', 'w', encoding='utf-8')
     f.close()
     f = open('workload/workload5a', 'a', encoding='utf-8')
@@ -484,8 +496,8 @@ def workload5(mode=0):
     for i in range(0, len(c)):
         mysql = "Select kv.set where kv.id in (select id Join sameid (id = rel.id) Select rel.id where rel.age " \
                 "between 20 and 30, Select document.id where document.date = %s " \
-                "rel.id = document.id)" % str(c[i])
-        mysql_dox = "Select document.id from document where document.date = %s;" % str(c[i])
+                "rel.id = document.id)" % str(data_list[c[i]])
+        mysql_dox = "Select document.id from document where document.date = %s;" % str(data_list[c[i]])
         sql_relation = ""
         if mode == 0:
             sql_relation = "select basicinfo.id from basicinfo" \
