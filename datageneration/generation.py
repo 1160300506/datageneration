@@ -165,8 +165,8 @@ def dox_generate(dox_num, user_num, user_inform_table):
     print("开始生成" + str(dox_num) + "条博文文档信息...")
     id_len = len(str(dox_num))
     uid_len = len(str(user_num))
-    topic_list = ["大学", "开学", "美食", "校园", "旅行", "哈尔滨", "汽车", "农业", "明星", "计算机", "医疗", "美容", "百货",
-             "高考", "疫情", "能源", "军事", "毕业", "北京", "河北", "校庆", "美容", "抖音", "武汉", "美国", "互联网"]
+    topic_list = ["University", "School", "Food", "Campus", "Travel", "Harbin", "Car", "Agriculture", "Star", "Computer", "Medical", "Beauty", " Department Store",
+              "College Entrance Examination", "Pneumonia", "Energy", "Military", "Graduation", "Beijing", "Hebei", "School Celebration", "Beauty", "Tiktok", "Wuhan", "USA", "the Internet"]
     user_blog = []
     with open("data/blog_dox.json", 'w', encoding='utf-8') as f1:
         f1.close()

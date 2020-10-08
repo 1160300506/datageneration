@@ -86,8 +86,8 @@ def read_senior_user():
 # 查询关注了某大V的发表过‘手机’话题博文的女性用户在过去一周的登录设备统计。
 def workload1(mode=0):
     workload_num = 100
-    topic_list = ["大学", "开学", "美食", "校园", "旅行", "哈尔滨", "汽车", "农业", "明星", "计算机", "医疗", "美容", "百货",
-                  "高考", "疫情", "能源", "军事", "毕业", "北京", "河北", "校庆", "美容", "抖音", "武汉", "美国", "互联网"]
+    topic_list = ["University", "School", "Food", "Campus", "Travel", "Harbin", "Car", "Agriculture", "Star", "Computer", "Medical", "Beauty", " Department Store",
+              "College Entrance Examination", "Pneumonia", "Energy", "Military", "Graduation", "Beijing", "Hebei", "School Celebration", "Beauty", "Tiktok", "Wuhan", "USA", "the Internet"]
     user_inform_table = read_user_inform()
     user_behavior_table = read_user_behavior()
     dox_l = read_user_blog()
